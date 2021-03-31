@@ -1,6 +1,6 @@
 import { RightOutlined, RollbackOutlined } from "@ant-design/icons";
 import { Button, Card, Col, Row, Typography } from "antd";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { playerCountState } from "../Initializer";
@@ -14,10 +14,31 @@ const Dot = styled.span`
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: ${(props) => (props.filled ? "FireBrick" : "Gray")};
+  background: ${(props) => (props.filled ? "firebrick" : "lightgray")};
 `;
 
 const TerrorLevel: React.FC<{ level: number }> = ({ level }) => {
+  const levels: ReactNode[] = [];
+
+  for (let i = 0; i < 10; i++) {
+    if (i % 3 === 0) {
+      levels.push(
+        <Title
+          key={i}
+          level={3}
+          style={{
+            margin: i < 9 ? "0px 8px 0px 0px" : "0px",
+            color: level >= i ? "firebrick" : "lightgray",
+          }}
+        >
+          {i < 9 ? i / 3 + 1 : "W"}
+        </Title>
+      );
+    } else {
+      levels.push(<Dot key={i} filled={level >= i} />);
+    }
+  }
+
   return (
     <div
       style={{
@@ -29,45 +50,7 @@ const TerrorLevel: React.FC<{ level: number }> = ({ level }) => {
       <Title level={3} style={{ margin: "0px 8px 0px 0px" }}>
         Terror Level:
       </Title>
-      <Title
-        level={3}
-        style={{
-          margin: "0px 8px 0px 0px",
-          color: level >= 0 ? "FireBrick" : "Gray",
-        }}
-      >
-        1
-      </Title>
-      <Dot filled={level >= 1} />
-      <Dot filled={level >= 2} />
-      <Title
-        level={3}
-        style={{
-          margin: "0px 8px 0px 0px",
-          color: level >= 3 ? "FireBrick" : "Gray",
-        }}
-      >
-        2
-      </Title>
-      <Dot filled={level >= 4} />
-      <Dot filled={level >= 5} />
-      <Title
-        level={3}
-        style={{
-          margin: "0px 8px 0px 0px",
-          color: level >= 6 ? "FireBrick" : "Gray",
-        }}
-      >
-        3
-      </Title>
-      <Dot filled={level >= 7} />
-      <Dot filled={level >= 8} />
-      <Title
-        level={3}
-        style={{ margin: "0px", color: level >= 9 ? "FireBrick" : "Gray" }}
-      >
-        W
-      </Title>
+      {levels}
     </div>
   );
 };
