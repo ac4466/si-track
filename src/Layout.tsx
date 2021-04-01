@@ -1,5 +1,7 @@
 import { Typography } from "antd";
 import React from "react";
+import Confetti from "react-confetti";
+import { atom, useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -29,21 +31,43 @@ const Content = styled.div`
   overflow: auto;
 `;
 
+export enum TrackerState {
+  UNINITIALIZED,
+  IN_PROGRESS,
+  VICTORY,
+}
+
+export const globalTrackerState = atom<TrackerState>({
+  key: "trackerState",
+  default: TrackerState.UNINITIALIZED,
+});
+
 const Layout: React.FC<unknown> = ({ children }) => {
+  const trackerState = useRecoilValue(globalTrackerState);
+
   return (
-    <Wrapper>
-      <Header>
-        <Typography.Title
-          level={2}
-          style={{ textAlign: "center", color: "white", margin: "0" }}
-        >
-          Spirit Island Tracker
-        </Typography.Title>
-      </Header>
-      <Body>
-        <Content>{children}</Content>
-      </Body>
-    </Wrapper>
+    <>
+      {trackerState === TrackerState.VICTORY && (
+        <Confetti
+          numberOfPieces={500}
+          tweenDuration={30000}
+          initialVelocityY={{ min: 5, max: 5 }}
+        />
+      )}
+      <Wrapper>
+        <Header>
+          <Typography.Title
+            level={2}
+            style={{ textAlign: "center", color: "white", margin: "0" }}
+          >
+            Spirit Island Tracker
+          </Typography.Title>
+        </Header>
+        <Body>
+          <Content>{children}</Content>
+        </Body>
+      </Wrapper>
+    </>
   );
 };
 

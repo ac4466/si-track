@@ -1,13 +1,13 @@
 import { Col, Row } from "antd";
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { isTrackerInitializedState } from "./Initializer";
+import { globalTrackerState, TrackerState } from "../Layout";
 import Fear from "./modules/Fear";
 
 const Tracker: React.FC = () => {
-  const isTrackerInitialized = useRecoilValue(isTrackerInitializedState);
+  const trackerState = useRecoilValue(globalTrackerState);
 
-  if (!isTrackerInitialized) {
+  if (trackerState === TrackerState.UNINITIALIZED) {
     return null;
   }
 

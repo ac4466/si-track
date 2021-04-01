@@ -1,11 +1,7 @@
 import { Button, Modal, Radio } from "antd";
 import React from "react";
 import { atom, useRecoilState } from "recoil";
-
-export const isTrackerInitializedState = atom<boolean>({
-  key: "isTrackerInitialized",
-  default: false,
-});
+import { globalTrackerState, TrackerState } from "../Layout";
 
 export const playerCountState = atom<number>({
   key: "playerCount",
@@ -13,22 +9,20 @@ export const playerCountState = atom<number>({
 });
 
 const Initializer: React.FC<unknown> = () => {
-  const [isInitialized, setIsInitialized] = useRecoilState(
-    isTrackerInitializedState
-  );
+  const [trackerState, setTrackerState] = useRecoilState(globalTrackerState);
   const [playerCount, setPlayerCount] = useRecoilState(playerCountState);
 
   return (
     <Modal
       title={"Number of Players"}
-      visible={!isInitialized}
+      visible={trackerState === TrackerState.UNINITIALIZED}
       centered={true}
       closable={false}
       footer={
         <Button
           type="primary"
           onClick={() => {
-            setIsInitialized(true);
+            setTrackerState(TrackerState.IN_PROGRESS);
           }}
         >
           Start

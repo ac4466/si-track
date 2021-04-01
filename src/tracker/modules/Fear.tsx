@@ -1,8 +1,9 @@
 import { RightOutlined, RollbackOutlined } from "@ant-design/icons";
 import { Button, Card, Col, Row, Typography } from "antd";
 import React, { ReactNode, useEffect, useMemo, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { globalTrackerState, TrackerState } from "../../Layout";
 import { playerCountState } from "../Initializer";
 
 const { Title } = Typography;
@@ -62,6 +63,7 @@ const Fear: React.FC<unknown> = () => {
   const [fearPool, setFearPool] = useState<number>(totalFear);
   const [generatedFear, setGeneratedFear] = useState<number>(0);
   const [terrorLevel, setTerrorLevel] = useState<number>(0);
+  const setTrackerState = useSetRecoilState(globalTrackerState);
 
   const horn = useMemo(
     () => new Audio(`${process.env.PUBLIC_URL}/horn.mp3`),
@@ -77,8 +79,9 @@ const Fear: React.FC<unknown> = () => {
   useEffect(() => {
     if (terrorLevel === 9) {
       horn.play();
+      setTrackerState(TrackerState.VICTORY);
     }
-  }, [horn, terrorLevel]);
+  }, [horn, terrorLevel, setTrackerState]);
 
   const reset = () => {
     setFearPool(totalFear);
