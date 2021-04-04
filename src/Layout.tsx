@@ -29,6 +29,8 @@ const Content = styled.div`
   background: white;
   max-width: 1000px;
   overflow: auto;
+  border-radius: 10px;
+  border: 1px solid #dcdcdc;
 `;
 
 export enum TrackerState {

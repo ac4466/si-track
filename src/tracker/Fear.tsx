@@ -3,8 +3,8 @@ import { Button, Card, Col, Row, Typography } from "antd";
 import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { globalTrackerState, TrackerState } from "../../Layout";
-import { playerCountState } from "../Initializer";
+import { globalTrackerState, TrackerState } from "../Layout";
+import { playerCountState } from "./Initializer";
 
 const { Title } = Typography;
 
@@ -94,7 +94,10 @@ const Fear: React.FC<unknown> = () => {
   };
 
   return (
-    <Card title={<TerrorLevel level={terrorLevel} />}>
+    <Card
+      title={<TerrorLevel level={terrorLevel} />}
+      style={{ borderRadius: "10px" }}
+    >
       <Row>
         <Col
           span={9}
